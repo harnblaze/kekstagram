@@ -1,4 +1,4 @@
-import {getRandomInt , getRandomElementOfArray} from './utils.js'
+import { getRandomInt, getRandomElementOfArray } from './utils.js';
 
 const PHOTO_COUNT = 25;
 
@@ -10,22 +10,22 @@ const Likes = {
 const Comments = {
   MIN: 1,
   MAX: 5,
-}
+};
 
 const Avatar = {
   MIN: 1,
   MAX: 6,
-}
+};
 
 const Id_comment = {
   MIN: 1,
   MAX: 2000,
-}
+};
 
 const Sentence = {
   MIN: 1,
   MAX: 2,
-}
+};
 
 const DESCRIPTIONS = [
   'Прекрасная погода',
@@ -61,25 +61,31 @@ const getComment = () => {
   return {
     id: getRandomInt(Id_comment.MIN, Id_comment.MAX),
     avatar: `img/avatar-${getRandomInt(Avatar.MIN, Avatar.MAX)}.svg`,
-    message: new Array(getRandomInt(Sentence.MIN, Sentence.MAX)).fill(null).map(() => getRandomElementOfArray(COMMENTS)).join(' '),
+    message: new Array(getRandomInt(Sentence.MIN, Sentence.MAX))
+      .fill(null)
+      .map(() => getRandomElementOfArray(COMMENTS))
+      .join(' '),
     name: getRandomElementOfArray(NAMES),
-  }
-}
+  };
+};
 
-const getComments = () => new Array(getRandomInt(Comments.MIN, Comments.MAX)).fill(null).map(() => getComment())
+const getComments = () =>
+  new Array(getRandomInt(Comments.MIN, Comments.MAX))
+    .fill(null)
+    .map(() => getComment());
 
-const getPhotos = ( id ) => {
+const getPhotos = (id) => {
   return {
     id,
     url: `photos/${id}.jpg`,
-    description : getRandomElementOfArray(DESCRIPTIONS),
+    description: getRandomElementOfArray(DESCRIPTIONS),
     likes: getRandomInt(Likes.MIN, Likes.MAX),
     comments: getComments(),
-  }
+  };
 };
 
+const photos = new Array(PHOTO_COUNT)
+  .fill(null)
+  .map((arr, id) => getPhotos(id + 1));
 
-const photos = new Array(PHOTO_COUNT).fill(null).map((arr, id) => getPhotos(id + 1));
-
-
-export {photos};
+export { photos };

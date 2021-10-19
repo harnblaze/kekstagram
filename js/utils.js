@@ -10,7 +10,7 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const getRandomElementOfArray =  (arr) => {
+const getRandomElementOfArray = (arr) => {
   return arr[getRandomInt(0, arr.length - 1)];
 };
 
@@ -18,4 +18,4 @@ const stringCount = (text, maxCount) => {
   return text.length <= maxCount;
 };
 
-export {getRandomInt, getRandomElementOfArray, stringCount};
+export { getRandomInt, getRandomElementOfArray, stringCount };
