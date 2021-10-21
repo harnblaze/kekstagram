@@ -1,5 +1,4 @@
-import { stringCount } from './utils.js';
-import { photos } from './data.js';
+import { stringCount } from './util.js';
+import { renderPictures } from './render.js'
 
-console.log(photos);
-console.log(stringCount('Это проверочная строка!', 140));
+renderPictures();
