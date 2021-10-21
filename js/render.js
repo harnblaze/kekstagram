@@ -1,16 +1,18 @@
 import { photos } from './data.js';
+import { onPictureClick } from './full-picture.js';
 
 const picturesList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const renderPicture =  ({url, likes, comments}) => {
+const renderPicture =  (photoData) => {
   const picture = pictureTemplate.cloneNode(true);
   const pictureImg = picture.querySelector('.picture__img');
-  pictureImg.src = url;
+  pictureImg.src = photoData.url;
   const pictureLikes = picture.querySelector('.picture__likes');
-  pictureLikes.textContent = likes;
+  pictureLikes.textContent = photoData.likes;
   const pictureComment = picture.querySelector('.picture__comments');
-  pictureComment.textContent = comments.length;
+  pictureComment.textContent = photoData.comments.length;
+  picture.addEventListener('click', () => onPictureClick(photoData))
   return picture;
 }
 
