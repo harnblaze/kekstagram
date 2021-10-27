@@ -9,7 +9,7 @@ const effects = uploadPopup.querySelector('.effects');
 const effectNone = effects.querySelector('#effect-none');
 const sliderElement = uploadPopup.querySelector('.effect-level__slider');
 const effectLevelValue = uploadPopup.querySelector('.effect-level__value');
-
+let effectName = 'none';
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -52,9 +52,7 @@ const onScaleControlClick = (evt) => {
   changeScalePreview(scaleValue);
 };
 
-const onEffectChange = (evt) => {
-  uploadPreview.classList.remove(`effects__preview--${effect}`);
-  let effect = evt.target.value;
+const getEffectSettings = (effect) => {
   let min = 0;
   let max = 1;
   let step = 0.1;
@@ -65,6 +63,7 @@ const onEffectChange = (evt) => {
       max = 1;
       step = 0.1;
       break;
+    case 'none':
     case 'marvin':
       min = 0;
       max = 100;
@@ -77,13 +76,24 @@ const onEffectChange = (evt) => {
       step = 0.1;
       break;
   }
+  return {
+    min,
+    max,
+    step,
+  };
+};
+
+const onEffectChange = (evt) => {
+  uploadPreview.classList.remove(`effects__preview--${effectName}`);
+  effectName = evt.target.value;
+  const { min, max, step } = getEffectSettings(effectName);
 
   uploadPreview.style.filter = 'none';
   effectLevelValue.value = max;
   sliderElement.parentElement.style.display = 'block';
-  uploadPreview.classList.add(`effects__preview--${effect}`);
+  uploadPreview.classList.add(`effects__preview--${effectName}`);
 
-  if (effect === 'none') {
+  if (effectName === 'none') {
     sliderElement.parentElement.style.display = 'none';
     effectLevelValue.value = 0;
     return;
@@ -100,7 +110,7 @@ const onEffectChange = (evt) => {
 
   sliderElement.noUiSlider.on('update', (value, handle) => {
     effectLevelValue.value = value[handle];
-    switch (effect) {
+    switch (effectName) {
       case 'chrome':
         uploadPreview.style.filter = `grayscale(${value[handle]})`;
         break;
