@@ -30,7 +30,14 @@ const onCloseButtonUploadClick = () => {
 
 const onEscKeydownCloseUpload = (evt) => {
   if (evt.code === 'Escape') {
-    onCloseButtonUploadClick();
+    if (
+      evt.target === document.querySelector('.text__hashtags') ||
+      evt.target === document.querySelector('.text__description')
+    ) {
+      evt.stopPropagation();
+    } else {
+      onCloseButtonUploadClick();
+    }
   }
 };
 
@@ -70,6 +77,10 @@ const getEffectSettings = (effect) => {
       step = 1;
       break;
     case 'phobos':
+      min = 1;
+      max = 3;
+      step = 0.1;
+      break;
     case 'heat':
       min = 0;
       max = 3;
@@ -106,10 +117,16 @@ const onEffectChange = (evt) => {
     },
     start: max,
     step,
+    connect: 'lower',
+    format: {
+      to: (value) =>
+        Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1),
+      from: (value) => parseFloat(value),
+    },
   });
 
   sliderElement.noUiSlider.on('update', (value, handle) => {
-    effectLevelValue.value = value[handle];
+    effectLevelValue.value = sliderElement.noUiSlider.get();
     switch (effectName) {
       case 'chrome':
         uploadPreview.style.filter = `grayscale(${value[handle]})`;
